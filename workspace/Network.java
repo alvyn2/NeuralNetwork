@@ -53,7 +53,7 @@ class Network {
         
             List<Double> predictions = new ArrayList<Double>();
             for (int i = 0; i < data.size(); i++){
-              predictions.add(i, this.predict(data.get(4).get(4), data.get(i).get(1), data.get(i).get(2)));
+              predictions.add(i, this.predict(data.get(i).get(0), data.get(i).get(1), data.get(i).get(2)));
             }
             Double thisLoss = meanSquareLoss(answers, predictions);
         

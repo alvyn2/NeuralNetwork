@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Main {
@@ -7,30 +8,43 @@ public class Main {
     //deleted first row from csv
         //id,Low Temperature,High Temperature,Rain Inches,Snow Inches,Cloud Percent
     
+        // predicts whether it will rain based on temperature and cloud percent
         Network network = new Network();  
         List<List<String>> csvdata = Network.readCSV("workspace/DailyWeather.csv");
-        List<List<Double>> data = null;
-        List<Double> answers =new List<Double>();
+        List<List<Integer>> data =new ArrayList<List<Integer>>();
+        List<Double> answers =new ArrayList<Double>();
 
-        for (List<String> a : csvdata){
+        for (List<String> a : csvdata){//copies data from the String array to data and answers variables
+            
+            
             String stringValue=a.get(3);
             double doubleValue = Double.parseDouble(stringValue);
-            answers.add(doubleValue);
+            double booleanAnswer;
+            if(doubleValue>0){
+                booleanAnswer=1;
+            }else{
+                booleanAnswer=0;
+            }
+            answers.add(booleanAnswer);
             
-             stringValue=a.get(1);// low temp
-             doubleValue = Double.parseDouble(stringValue);
-            data.get(0).add(doubleValue);
+             //stringValue=a.get(1);// low temp
+            //doubleValue = Double.parseDouble(stringValue);
+            //Integer intValue=(int) doubleValue;
+            data.add(Arrays.asList((int) Double.parseDouble(a.get(1)), (int) Double.parseDouble(a.get(2)), (int) Double.parseDouble(a.get(5))));
 
-
+/* 
             stringValue=a.get(2);//high temp
             doubleValue = Double.parseDouble(stringValue);
-           data.get(1).add(doubleValue);
+            intValue=(int) doubleValue;
+           //data.add(1).add(intValue);
 
 
            stringValue=a.get(5);//cloud percemt
-            doubleValue = Double.parseDouble(stringValue);
-           data.get(1).add(doubleValue);
-            }
+           doubleValue = Double.parseDouble(stringValue);
+            intValue=(int) doubleValue;
+           //data.add(1).add(intValue);
+           */
+        }
             System.out.println(answers);
             System.out.println(data);
         //System.out.println(csvdata);
@@ -56,14 +70,17 @@ public class Main {
     List<Double> answers = Arrays.asList(0.0,1.0,1.0,0.0,0.0,1.0,1.0,0.0);  
 */
     
-    //network.train(data, answers);
+    network.train(data, answers);
+
+
 
 //Try making some predictions:
-/* 
-System.out.println("Should give no "+network.predict(167, 73));
-System.out.println("Should give yes "+network.predict(30, 25));
-System.out.println("Should give something else"+network.predict(365, 0));
-*/
+
+System.out.println("Should give no "+network.predict(43,68,13));
+System.out.println("also no "+network.predict(41,58,49));
+System.out.println("Should give yes "+network.predict(52,71,32));
+System.out.println("Should give something random and different"+network.predict((int)(Math.random()*80), (int)(Math.random()*100),(int)(Math.random()*100)));
+
 
     }
 }
